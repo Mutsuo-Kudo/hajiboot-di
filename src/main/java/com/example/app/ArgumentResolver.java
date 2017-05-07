@@ -5,17 +5,13 @@
  */
 package com.example.app;
 
-import org.springframework.stereotype.Component;
+import java.io.InputStream;
 
 /**
  *
  * @author mukudo
  */
-@Component
-public class AddCalculator implements Calculator {
+public interface ArgumentResolver {
 
-    @Override
-    public int calc(int a, int b) {
-        return a + b;
-    }
+    Argument resolve(InputStream stream);
 }

@@ -1,27 +1,30 @@
 package com.example;
 
+import com.example.app.Argument;
+import com.example.app.ArgumentResolver;
 import com.example.app.Calculator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Scanner;
+@SpringBootApplication
+public class HajibootDiApplication implements CommandLineRunner {
 
-@EnableAutoConfiguration
-@Import(AppConfig.class)
-public class HajibootDiApplication {
+    @Autowired
+    ArgumentResolver argumentResolver;
+    @Autowired
+    Calculator calculator;
+
+    @Override
+    public void run(String... strings) throws Exception {
+        System.out.print("Enter 2 numbers like 'a b' : ");
+        Argument argument = argumentResolver.resolve(System.in);
+        int result = calculator.calc(argument.getA(), argument.getB());
+        System.out.println("result = " + result);
+    }
 
     public static void main(String[] args) {
-        ApplicationContext context = SpringApplication.run(HajibootDiApplication.class, args);
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter 2 numbers like 'a b' : ");
-        int a = scanner.nextInt();
-        int b = scanner.nextInt();
-
-        Calculator calculator = context.getBean(Calculator.class);
-        int result = calculator.calc(a, b);
-
-        System.out.println("result = " + result);
+        SpringApplication.run(HajibootDiApplication.class, args);
     }
 }
